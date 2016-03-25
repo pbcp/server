@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/alfredxing/clipboard/api"
+	"github.com/pbcp/server/api"
 )
 
 func main() {

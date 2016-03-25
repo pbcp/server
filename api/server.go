@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/alfredxing/clipboard/api/db"
+	"github.com/pbcp/server/api/db"
 
 	"net/http"
 )
