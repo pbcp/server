@@ -1,3 +1,5 @@
+> **Warning:** Currently under volatile development; not ready for general use!
+
 ## pbcp
 
 The server.
