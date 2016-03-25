@@ -1,15 +1,15 @@
 package api
 
 import (
-	"encoding/json"
-	"github.com/julienschmidt/httprouter"
-	"github.com/boltdb/bolt"
-	"net/http"
-	"errors"
-	"strconv"
 	"crypto/rand"
 	"encoding/hex"
+	"encoding/json"
+	"errors"
+	"github.com/boltdb/bolt"
+	"github.com/julienschmidt/httprouter"
 	"log"
+	"net/http"
+	"strconv"
 )
 
 // Paste retrieves the most recently copied object given the user's id.
@@ -39,7 +39,7 @@ func (a *API) Paste(w http.ResponseWriter, r *http.Request, params httprouter.Pa
 		return
 	}
 
-	http.Redirect(w, r, "https://pbcp.s3-us-west-2.amazonaws.com/" + obj, http.StatusFound)
+	http.Redirect(w, r, "https://pbcp.s3-us-west-2.amazonaws.com/"+obj, http.StatusFound)
 }
 
 // Retrieve retrieves the most recently copied object given the user's id.
@@ -62,7 +62,7 @@ func (a *API) Retrieve(w http.ResponseWriter, r *http.Request, params httprouter
 		return
 	}
 
-	http.Redirect(w, r, "https://pbcp.s3-us-west-2.amazonaws.com/" + obj, http.StatusFound)
+	http.Redirect(w, r, "https://pbcp.s3-us-west-2.amazonaws.com/"+obj, http.StatusFound)
 }
 
 // Copy adds the uploaded object for a user
@@ -146,7 +146,7 @@ func (a *API) retrieve(id string, n uint64) string {
 			return errors.New("Invalid user?")
 		}
 
-		obj = user[len(user) - 1 - int(n)]
+		obj = user[len(user)-1-int(n)]
 		return nil
 	})
 	if err != nil {
