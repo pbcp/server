@@ -112,14 +112,14 @@ func (a *API) Register(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 
 // Debug
 func (a *API) Debug(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	users := [][]string{}
+	users := map[string][]string{}
 	a.DB.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte("Users"))
 		c := b.Cursor()
 
 		for k, v := c.First(); k != nil; k, v = c.Next() {
 			user := parse(v)
-			users = append(users, user)
+			users[string(k)] = user
 		}
 		return nil
 	})
@@ -217,8 +217,13 @@ func (a *API) add(id string, obj string) error {
 
 		// Limit to 10 objects
 		user = append(user, obj)
-		if len(user) > 10 {
-			user = user[(len(user) - 10):]
+		for len(user) > 10 {
+			var excess string
+			excess, user = user[0], user[1:]
+			err := delete(excess)
+			if err != nil {
+				return err
+			}
 		}
 
 		// Store into DB
@@ -253,7 +258,7 @@ func (a *API) id() string {
 // respond writes out a JSON serializer of whatever is passed in to the HTTP
 // response body.
 func (a *API) respond(data interface{}, w http.ResponseWriter, r *http.Request) {
-	json, err := json.Marshal(data)
+	json, err := json.MarshalIndent(data, "", "\t")
 	if err != nil {
 		InternalError.ServeHTTP(w, r)
 		log.Println("Failed to serialize JSON")
