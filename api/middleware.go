@@ -5,7 +5,7 @@ import (
 )
 
 // ServerHeader is the Server header value.
-const ServerHeader string = "Clipboard"
+const ServerHeader string = "pbcp"
 
 // ContentType is the Content-Type header for data responses.
 const ContentType string = "application/json"
