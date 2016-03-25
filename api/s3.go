@@ -18,6 +18,8 @@ func upload(key string, content io.Reader) error {
 		Bucket: aws.String("pbcp"),
 		Key:    aws.String(key),
 	})
-	log.Printf("Upload: %s", res.Location)
+	if err == nil {
+		log.Printf("Upload: %s", res.Location)
+	}
 	return err
 }
