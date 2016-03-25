@@ -20,7 +20,6 @@ The server.
 
 ### API
 
-- `GET /:id`: Get most recent clip
-- `GET /:id/:num`: Get clip at index (starts from 0)
-- `POST /:id`: Upload file to clipboard (request body should be file body)
+- `GET /board/:id/:num`: Get clip at index (starts from 0)
+- `POST /board/:id`: Upload file to clipboard (request body should be file body)
 - `GET /register`: Generate a unique user ID to use

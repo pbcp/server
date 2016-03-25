@@ -12,38 +12,8 @@ import (
 	"strconv"
 )
 
-// Paste retrieves the most recently copied object given the user's id.
+// Paste retrieves the nth recently copied object given the user's id.
 func (a *API) Paste(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-	id := params.ByName("id")
-	if id == "" {
-		BadRequest.ServeHTTP(w, r)
-		return
-	}
-
-	// Special case for "register" endpoint
-	if id == "register" {
-		a.Register(w, r, params)
-		return
-	}
-
-	// Special case for "debug" endpoint
-	if id == "debug" {
-		a.Debug(w, r, params)
-		return
-	}
-
-	obj := a.retrieve(id, 0)
-	if obj == "" {
-		NotFound.ServeHTTP(w, r)
-		log.Println("Not found")
-		return
-	}
-
-	http.Redirect(w, r, "https://pbcp.s3-us-west-2.amazonaws.com/"+obj, http.StatusFound)
-}
-
-// Retrieve retrieves the most recently copied object given the user's id.
-func (a *API) Retrieve(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	id := params.ByName("id")
 	if id == "" {
 		BadRequest.ServeHTTP(w, r)

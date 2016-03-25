@@ -9,11 +9,11 @@ func (a *API) Routes() *httprouter.Router {
 	router := httprouter.New()
 
 	// 'Cause I just wanna copy and paste
-	router.GET("/:id", a.Paste)
-	router.POST("/:id", a.Copy)
+	router.POST("/board/:id", a.Copy)
+	router.GET("/board/:id/:index", a.Paste)
 
-	// Get from history
-	router.GET("/:id/:index", a.Retrieve)
+	router.GET("/register", a.Register)
+	router.GET("/debug", a.Debug)
 
 	return router
 }
