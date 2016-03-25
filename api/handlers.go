@@ -77,7 +77,8 @@ func (a *API) Copy(w http.ResponseWriter, r *http.Request, params httprouter.Par
 
 // Register outputs a unique user ID
 func (a *API) Register(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	a.respond(a.id(), w, r)
+	w.Header().Set("Content-Type", "text/plain")
+	w.Write([]byte(a.id()))
 }
 
 // Debug
