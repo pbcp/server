@@ -40,12 +40,14 @@ func (a *API) Copy(w http.ResponseWriter, r *http.Request, params httprouter.Par
 	id := params.ByName("id")
 	if id == "" {
 		BadRequest.ServeHTTP(w, r)
+		log.Println("No ID on upload")
 		return
 	}
 
 	size := r.ContentLength
 	if size <= 0 {
 		BadRequest.ServeHTTP(w, r)
+		log.Println("No Content-Length header")
 		return
 	}
 
