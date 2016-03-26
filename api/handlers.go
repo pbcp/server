@@ -5,12 +5,15 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
+	"io"
 	"github.com/boltdb/bolt"
 	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
 	"strconv"
 )
+
+const SizeLimit = 10000000
 
 // Paste retrieves the nth recently copied object given the user's id.
 func (a *API) Paste(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
@@ -44,15 +47,9 @@ func (a *API) Copy(w http.ResponseWriter, r *http.Request, params httprouter.Par
 		return
 	}
 
-	size := r.ContentLength
-	if size <= 0 {
-		BadRequest.ServeHTTP(w, r)
-		log.Println("No Content-Length header")
-		return
-	}
-
 	// Check if size is larger than limit
-	if size > 10000000 {
+	size := r.ContentLength
+	if size > SizeLimit {
 		BadRequest.ServeHTTP(w, r)
 		log.Printf("File too large! %d\n", size)
 		return
@@ -60,7 +57,7 @@ func (a *API) Copy(w http.ResponseWriter, r *http.Request, params httprouter.Par
 
 	obj := a.id()
 
-	err := upload(obj, r.Body)
+	err := upload(obj, io.LimitReader(r.Body, SizeLimit))
 	if err != nil {
 		InternalError.ServeHTTP(w, r)
 		log.Printf("Couldn't upload file: %s\n", err)
