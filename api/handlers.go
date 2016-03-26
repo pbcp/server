@@ -35,7 +35,8 @@ func (a *API) Paste(w http.ResponseWriter, r *http.Request, params httprouter.Pa
 		return
 	}
 
-	http.Redirect(w, r, "https://pbcp.s3-us-west-2.amazonaws.com/"+obj, http.StatusFound)
+	url := "https://dist.pbcp.io/" + obj
+	http.Redirect(w, r, url, http.StatusFound)
 }
 
 // Copy adds the uploaded object for a user
