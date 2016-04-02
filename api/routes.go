@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/julienschmidt/httprouter"
+	"os"
 )
 
 // Routes sets the routes and handlers for the API
@@ -13,7 +14,10 @@ func (a *API) Routes() *httprouter.Router {
 	router.GET("/board/:id/:index", a.Paste)
 
 	router.GET("/register", a.Register)
-	router.GET("/debug", a.Debug)
+
+	if os.Getenv("DEGUG") != "" {
+		router.GET("/debug", a.Debug)
+	}
 
 	return router
 }

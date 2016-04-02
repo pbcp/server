@@ -34,7 +34,7 @@ func delete(key string) error {
 	svc := s3.New(session.New(&config))
 	params := &s3.DeleteObjectInput{
 		Bucket: aws.String(Bucket),
-		Key: aws.String(key),
+		Key:    aws.String(key),
 	}
 	_, err := svc.DeleteObject(params)
 	return err
